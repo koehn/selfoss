@@ -155,6 +155,13 @@ class feed extends \spouts\spout {
         @$this->feed->set_autodiscovery_level( SIMPLEPIE_LOCATOR_AUTODISCOVERY | SIMPLEPIE_LOCATOR_LOCAL_EXTENSION | SIMPLEPIE_LOCATOR_LOCAL_BODY);
         $this->feed->set_useragent(\helpers\WebClient::getUserAgent(array('SimplePie/'.SIMPLEPIE_VERSION)));
          
+        $strip_htmltags = @$this->feed->strip_htmltags;
+        array_splice($strip_htmltags, array_search('object', $strip_htmltags), 1);
+        array_splice($strip_htmltags, array_search('param', $strip_htmltags), 1);
+        array_splice($strip_htmltags, array_search('embed', $strip_htmltags), 1);
+
+        @$this->feed->strip_htmltags($strip_htmltags);
+
         // fetch items
         @$this->feed->init();
         
